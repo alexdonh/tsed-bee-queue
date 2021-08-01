@@ -30,10 +30,7 @@ export class ArenaMiddleware implements IMiddleware {
         Bee: BeeQueue,
         queues
       },
-      {
-        basePath: this.queueSettings.arenaBasePath,
-        disableListen: true
-      }
+      this.queueSettings.arenaListenOptions
     );
   }
 }
