@@ -1,0 +1,55 @@
+{
+  "name": "tsed-bee-queue",
+  "version": "0.0.1",
+  "description": "Bee-queue for Ts.ED framework",
+  "author": "Alex Do <alexdonh@gmail.com>",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "yarn clean && yarn tsc",
+    "clean": "rm -rf dist/",
+    "tsc": "tsc --project tsconfig.compile.json",
+    "tsc:w": "tsc --project tsconfig.json -w",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "bee-queue": "^1.4.0",
+    "bull-arena": "^3.29.1",
+    "lodash": "^4.17.21",
+    "tsed-redis": "https://github.com/alexdonh/tsed-redis.git"
+  },
+  "devDependencies": {
+    "@tsed/common": "^6.62.0",
+    "@tsed/core": "^6.62.0",
+    "@tsed/di": "^6.62.0",
+    "@tsed/logger": "^5.17.0",
+    "@types/bull-arena": "^3.0.4",
+    "@types/lodash": "^4.14.171",
+    "@types/node": "^14.14.45",
+    "@types/multer": "^1.4.7",
+    "@types/redis": "^2.8.28",
+    "@typescript-eslint/eslint-plugin": "^4.28.0",
+    "@typescript-eslint/parser": "^4.28.0",
+    "eslint": "^7.29.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  },
+  "peerDependencies": {
+    "@tsed/common": "^6.62.0",
+    "@tsed/core": "^6.62.0",
+    "@tsed/di": "^6.62.0",
+    "@tsed/logger": "^5.17.0"
+  },
+  "private": false,
+  "license": "MIT"
+}
