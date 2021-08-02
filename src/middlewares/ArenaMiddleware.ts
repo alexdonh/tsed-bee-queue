@@ -16,10 +16,10 @@ export class ArenaMiddleware implements IMiddleware {
   use() {
     const queues =
       this.queueSettings.providers?.map((q) => {
-        const {name} = Store.from(q)?.get("queue") as QueueOptions;
+        const {name, hostId} = Store.from(q)?.get("queue") as QueueOptions;
         return {
           name,
-          hostId: "default",
+          hostId: hostId || "default",
           type: "bee",
           redis: this.redis as any // use singleton di to avoid creating too much connections
         };

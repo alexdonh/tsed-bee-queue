@@ -2458,7 +2458,7 @@ tsconfig-paths@^3.9.0:
 
 "tsed-redis@https://github.com/alexdonh/tsed-redis.git":
   version "0.0.1"
-  resolved "https://github.com/alexdonh/tsed-redis.git#2d503183ab0b29f7d0c9246955fdd9f6c3f28ee5"
+  resolved "https://github.com/alexdonh/tsed-redis.git#e9a444a60d847468da5a29dd4d6c7a861adf63ed"
   dependencies:
     redis "^3.0.2"
 

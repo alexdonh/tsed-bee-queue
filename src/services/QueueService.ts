@@ -1,7 +1,8 @@
-import {Inject, Service, Value} from "@tsed/di";
+import {Constant, Inject, Service} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import BeeQueue, {QueueSettings} from "bee-queue";
-import {RedisClient} from "redis";
+import BeeQueue from "bee-queue";
+import {RedisService} from "tsed-redis";
+import {QueueSettings} from "../interfaces";
 
 @Service()
 export class QueueService {
@@ -10,20 +11,18 @@ export class QueueService {
   @Inject()
   readonly logger: Logger;
 
-  @Inject(RedisClient)
-  readonly redis: RedisClient;
+  @Inject(RedisService)
+  readonly redisService: RedisService;
 
-  @Value("queue")
-  protected readonly queueSettings?: QueueSettings;
+  @Constant("queue", {})
+  protected readonly queueSettings: QueueSettings;
 
-  get(name: string): BeeQueue {
+  get(name: string, hostId?: string): BeeQueue {
     let queue = this.queues.get(name);
     if (!queue) {
-      const settings = this.queueSettings || {};
-      if (!settings.redis) {
-        settings.redis = this.redis;
-      }
-      queue = new BeeQueue(name, settings);
+      const {redis, ...settings} = this.queueSettings;
+      const redisClient = !redis || typeof redis === "string" ? this.redisService.get(hostId || redis) : undefined;
+      queue = new BeeQueue(name, {redis: redisClient, ...settings});
       queue.on("ready", () => {
         this.logger.info(`Queue '${name}' is ready`);
       });

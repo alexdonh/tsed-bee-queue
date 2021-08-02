@@ -2,11 +2,14 @@ import {OnReady} from "@tsed/common";
 import {classOf, Store, Type} from "@tsed/core";
 import {Inject, InjectorService, Module, OnDestroy, Provider} from "@tsed/di";
 import {Logger} from "@tsed/logger";
+import {RedisService} from "tsed-redis";
 import {QueueOptions, QueueProvider} from "./interfaces";
 import {PROVIDER_TYPE_QUEUE} from "./registries/QueueRegistry";
 import {QueueService} from "./services/QueueService";
 
-@Module()
+@Module({
+  imports: [RedisService]
+})
 export class QueueModule implements OnReady, OnDestroy {
   protected providers = new Map<string, Provider<any>>();
 
@@ -30,10 +33,11 @@ export class QueueModule implements OnReady, OnDestroy {
   }
 
   private getQueueMetadata(token: Type<any>) {
-    const {name, concurrency} = Store.from(token)?.get("queue") as QueueOptions;
+    const {name, hostId, concurrency} = Store.from(token)?.get("queue") as QueueOptions;
 
     return {
       name,
+      hostId,
       concurrency: concurrency || 1
     };
   }
@@ -51,7 +55,7 @@ export class QueueModule implements OnReady, OnDestroy {
       if (!instance) {
         throw Error(`Cannot get instance ${provider.token}.`);
       }
-      const queue = this.queueService.get(metadata.name);
+      const queue = this.queueService.get(metadata.name, metadata.hostId);
       queue.process(metadata.concurrency, instance.$exec.bind(instance));
       provider.queue = queue;
 
