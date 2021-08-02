@@ -20,7 +20,7 @@ export class ArenaMiddleware implements IMiddleware {
         const {name, label} = Store.from(q)?.get("queue") as QueueOptions;
         return {
           name,
-          hostId: capitalize(label || name),
+          hostId: label || capitalize(name),
           type: "bee",
           redis: this.redis as any // use singleton di to avoid creating too much connections
         };
