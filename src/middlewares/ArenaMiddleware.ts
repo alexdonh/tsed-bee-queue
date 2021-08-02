@@ -4,7 +4,6 @@ import BeeQueue from "bee-queue";
 import {RedisClient} from "redis";
 import {QueueOptions, QueueSettings} from "../interfaces";
 import {Store} from "@tsed/core";
-import {capitalize} from "lodash";
 
 @Middleware()
 export class ArenaMiddleware implements IMiddleware {
@@ -17,10 +16,10 @@ export class ArenaMiddleware implements IMiddleware {
   use() {
     const queues =
       this.queueSettings.providers?.map((q) => {
-        const {name, label} = Store.from(q)?.get("queue") as QueueOptions;
+        const {name} = Store.from(q)?.get("queue") as QueueOptions;
         return {
           name,
-          hostId: label || capitalize(name),
+          hostId: "default",
           type: "bee",
           redis: this.redis as any // use singleton di to avoid creating too much connections
         };

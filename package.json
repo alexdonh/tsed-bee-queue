@@ -20,7 +20,6 @@
   "dependencies": {
     "bee-queue": "^1.4.0",
     "bull-arena": "^3.29.1",
-    "lodash": "^4.17.21",
     "tsed-redis": "https://github.com/alexdonh/tsed-redis.git"
   },
   "devDependencies": {
@@ -29,7 +28,6 @@
     "@tsed/di": "^6.62.0",
     "@tsed/logger": "^5.17.0",
     "@types/bull-arena": "^3.0.4",
-    "@types/lodash": "^4.14.171",
     "@types/node": "^14.14.45",
     "@types/multer": "^1.4.7",
     "@types/redis": "^2.8.28",
