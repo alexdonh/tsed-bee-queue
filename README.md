@@ -166,6 +166,8 @@ export class Server {
 
 ## License
 
+MIT License
+
 Copyright (c) 2021 Alex Do
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
