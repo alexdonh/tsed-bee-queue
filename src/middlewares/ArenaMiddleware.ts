@@ -1,8 +1,8 @@
 import {Constant, IMiddleware, Inject, Middleware} from "@tsed/common";
-import BullArena from "bull-arena";
 import BeeQueue from "bee-queue";
-import {QueueSettings} from "../interfaces";
+import BullArena from "bull-arena";
 import {RedisService} from "tsed-redis";
+import {QueueSettings} from "../interfaces";
 import {QueueModule} from "../QueueModule";
 
 @Middleware()

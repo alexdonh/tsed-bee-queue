@@ -8,6 +8,6 @@ declare global {
   }
 }
 
-export * from "./QueueSettings";
-export * from "./QueueProvider";
 export * from "./QueueOptions";
+export * from "./QueueProvider";
+export * from "./QueueSettings";

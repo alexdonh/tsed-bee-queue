@@ -1,4 +1,4 @@
-import {useDecorators, StoreSet} from "@tsed/core";
+import {StoreSet, useDecorators} from "@tsed/core";
 import {QueueOptions} from "../interfaces/QueueOptions";
 import {registerQueue} from "../registries/QueueRegistry";
 

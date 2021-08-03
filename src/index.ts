@@ -1,5 +1,5 @@
-export * from "./interfaces";
 export * from "./decorators";
+export * from "./interfaces";
 export * from "./middlewares/ArenaMiddleware";
-export * from "./services/QueueService";
 export * from "./QueueModule";
+export * from "./services/QueueService";

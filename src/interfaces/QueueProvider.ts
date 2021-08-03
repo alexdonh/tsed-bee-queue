@@ -1,4 +1,4 @@
-import {Job, DoneCallback} from "bee-queue";
+import {DoneCallback, Job} from "bee-queue";
 
 export interface QueueProvider<T = any> {
   $exec<U>(job: Job<T>, done: DoneCallback<U>): void;
