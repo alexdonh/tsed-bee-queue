@@ -11,7 +11,7 @@ import {QueueService} from "./services/QueueService";
   imports: [RedisService]
 })
 export class QueueModule implements OnReady, OnDestroy {
-  protected providers = new Map<string, Provider<any>>();
+  readonly providers = new Map<string, Provider<any>>();
 
   @Inject()
   protected readonly queueService: QueueService;
@@ -32,7 +32,7 @@ export class QueueModule implements OnReady, OnDestroy {
     });
   }
 
-  private getQueueMetadata(token: Type<any>) {
+  getQueueMetadata(token: Type<any>) {
     const {name, hostId, concurrency} = Store.from(token)?.get("queue") as QueueOptions;
 
     return {
