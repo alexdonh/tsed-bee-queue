@@ -57,6 +57,15 @@ export class QueueModule implements OnReady, OnDestroy {
       }
       const queue = this.queueService.get(metadata.name, metadata.hostId);
       queue.process(metadata.concurrency, instance.$exec.bind(instance));
+      
+      if (instance.$failed) {
+        queue.on("failed", instance.$failed.bind(instance));
+      }
+
+      if (instance.$succeeded) {
+        queue.on("succeeded", instance.$succeeded.bind(instance));
+      }
+      
       provider.queue = queue;
 
       this.providers.set(metadata.name, provider);
