@@ -5,6 +5,6 @@ export interface QueueProvider<T = any> {
   $exec<U>(job: Job<T>): Promise<U>;
 
   $failed?(job: Job<T>, err: Error): void;
-  
+
   $succeeded?(job: Job<T>, result: any): void;
 }

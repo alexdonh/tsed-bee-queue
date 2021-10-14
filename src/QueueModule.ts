@@ -33,11 +33,10 @@ export class QueueModule implements OnReady, OnDestroy {
   }
 
   getQueueMetadata(token: Type<any>) {
-    const {name, hostId, concurrency} = Store.from(token)?.get("queue") as QueueOptions;
+    const {concurrency, ...rest} = Store.from(token)?.get("queue") as QueueOptions;
 
     return {
-      name,
-      hostId,
+      ...rest,
       concurrency: concurrency || 1
     };
   }
@@ -55,9 +54,10 @@ export class QueueModule implements OnReady, OnDestroy {
       if (!instance) {
         throw Error(`Cannot get instance ${provider.token}.`);
       }
-      const queue = this.queueService.get(metadata.name, metadata.hostId);
+      const {name, hostId, ...options} = metadata;
+      const queue = this.queueService.get(name, hostId, options);
       queue.process(metadata.concurrency, instance.$exec.bind(instance));
-      
+
       if (instance.$failed) {
         queue.on("failed", instance.$failed.bind(instance));
       }
@@ -65,7 +65,7 @@ export class QueueModule implements OnReady, OnDestroy {
       if (instance.$succeeded) {
         queue.on("succeeded", instance.$succeeded.bind(instance));
       }
-      
+
       provider.queue = queue;
 
       this.providers.set(metadata.name, provider);
