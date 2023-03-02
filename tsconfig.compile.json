@@ -2,9 +2,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "rootDir": "./src",
-    "outDir": "./dist",
+    "outDir": "./lib",
     "moduleResolution": "node",
     "declaration": true,
+    "declarationDir": "./lib/types",
     "noResolve": false,
     "preserveConstEnums": true,
     "sourceMap": true,

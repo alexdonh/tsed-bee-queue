@@ -1,4 +1,5 @@
 import {QueueSettings} from "bee-queue";
+
 export interface QueueOptions
   extends Pick<QueueSettings, "stallInterval" | "nearTermWindow" | "delayedDebounce" | "removeOnSuccess" | "removeOnFailure"> {
   name: string;

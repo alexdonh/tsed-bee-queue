@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2019",
+    "target": "es2020",
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
@@ -20,26 +20,31 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "lib": [
-      "es2019",
-      "dom",
+      "ES2020",
       "esnext.asynciterable"
     ],
     "typeRoots": [
-      "./node_modules/@types"
-    ]
+      "./node_modules/@types",
+      "./@types"
+    ],
+    "paths": {
+      "bull-arena": ["./@types/bull-arena"],
+      "bee-queue": ["./@types/bee-queue"]
+    }
   },
   "include": [
+    "./@types/**/*.d.ts",
     "./src/**/*.ts"
   ],
   "exclude": [
     "node_modules",
-    "dist",
+    "lib",
     "test"
   ],
   "linterOptions": {
     "exclude": [
       "node_modules",
-      "dist",
+      "lib",
       "test"
     ]
   }

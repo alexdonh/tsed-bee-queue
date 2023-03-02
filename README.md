@@ -4,14 +4,14 @@ Bee-queue for Ts.ED framework
 
 ## Goals
 
-This provides Redis-based job queueing services built on top of Bee-queue in Ts.ED framework. With some little configuraitons you can have your web service running as a queue system that handle different jobs as you define.
+This provides Redis-based job queueing services built on top of Bee-queue for use with Ts.ED framework. With some little configurations you can have your web service running as a queue system that handle different jobs as you define.
 
 ## Installation
 
 ```bash
-npm install https://github.com/alexdonh/tsed-bee-queue.git
+npm install tsed-bee-queue tsed-redis redis
 // or yarn
-yarn add https://github.com/alexdonh/tsed-bee-queue.git
+yarn add tsed-bee-queue tsed-redis redis
 ```
 
 ## Getting started
@@ -27,7 +27,7 @@ Your application code structure could look like this:
 │   ├── queues -- Add this directory to store all of your jobs
 │   │   ├── FooQueue.ts
 │   │   ├── BarQueue.ts
-│   │   └── ...
+│   │   └── index.ts -- Use barrelsby to generate index
 │   ├── ...
 │   ├── index.ts
 │   └── Server.ts
@@ -37,31 +37,31 @@ Your application code structure could look like this:
 └── ...
 ```
 
+### (Optional) Use barrelsby to generate index
+
+Add `"./src/queues"` to `directory` in `.barrelsby.json`
+
 ### Create your jobs
 
 ```typescript
-import {Inject} from "@tsed/di";
-import {Logger} from "@tsed/logger";
-import {Job, DoneCallback} from "bee-queue";
+import {Job} from "bee-queue";
 import {Queue, QueueProvider} from "tsed-bee-queue";
 
 @Queue({name: "foo", concurrency: 2})
 export class FooQueue implements QueueProvider {
-  @Inject()
-  readonly logger: Logger;
 
   $exec(job: Job<any>) {
-    this.logger.debug(job);
     // do something
     // MUST return Promise
+    return Promise.resolve();
   }
-  
-  // or
-  // $exec(job: Job<any>, done: DoneCallback<any>) {
-  //   this.logger.debug(job);
-  //   // do something
-  //   // call done ONCE
+
+  // or with callback
+  // $exec(job: Job<any>, done: DoneCallBack<any>) {
+  //   // do something then call
+  //   done(error, result);
   // }
+
 }
 
 ```
@@ -72,9 +72,9 @@ You can do this in different ways, below is an example in `Server.ts`:
 
 ```typescript
 import {Configuration} from "@tsed/di";
-import "tsed-redis"; // Recommended as it use DI factory for Redis client to avoid creating connections
+import "tsed-redis"; // recommended as it use DI factory for Redis client to avoid creating many connections
 import "tsed-bee-queue";
-import providers from "./queues";
+import "./queues"; // required
 ...
 
 @Configuration({
@@ -85,7 +85,9 @@ import providers from "./queues";
     ...
   },
   queue: {
-    providers // MUST
+    redis: "default", // redis connection
+    getEvents: false, // see bee-queue configurations
+    ...
   }
 })
 export class Server {
@@ -121,7 +123,7 @@ This job will be sent to queue and handled by `FooQueue`. This doesn't have to b
 
 ## Queue monitoring
 
-This library also supports monitoring your queues using `bee-queue/bull-arena`.
+This library also supports monitoring your queues using [bee-queue/arena](https://github.com/bee-queue/arena).
 
 ### Usage
 
@@ -131,6 +133,7 @@ In `Server.ts`:
 import {Configuration} from "@tsed/di";
 import "tsed-redis";
 import "tsed-bee-queue";
+import "./queues";
 import {ArenaMiddleware} from "tsed-bee-queue";
 
 ...
@@ -138,7 +141,8 @@ import {ArenaMiddleware} from "tsed-bee-queue";
   ...
   queue: {
     providers,
-    arenaListenOptions: {
+    arena: {
+      enabled: true,
       basePath: "/arena",
       disableListen: true // to run it on your running server or you can set a different host/port to run another separate server
     }
@@ -146,7 +150,7 @@ import {ArenaMiddleware} from "tsed-bee-queue";
 })
 export class Server {
   $afterRoutesInit(): void {
-    this.app.all("/arena/*", ArenaMiddleware); // route all requests to Arena middleware
+    this.app.all("/arena*", ArenaMiddleware); // route all requests to Arena middleware
   }
 }
 ```
@@ -161,7 +165,7 @@ export class Server {
 - [Me](https://github.com/alexdonh)
 - [Ts.ED](https://github.com/tsedio/tsed) for the awesome Typescript framework
 - [bee-queue](https://github.com/bee-queue/bee-queue)
-- [bull-arena](https://github.com/bee-queue/bull-arena)
+- [bull-arena](https://github.com/bee-queue/arena)
 - [Redis for Node.js](https://github.com/NodeRedis/node-redis)
 
 ## License

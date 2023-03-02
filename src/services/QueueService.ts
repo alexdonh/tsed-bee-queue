@@ -1,11 +1,11 @@
-import {Constant, Inject, Service} from "@tsed/di";
+import {Constant, Inject, OnDestroy, Service} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 import BeeQueue from "bee-queue";
 import {RedisService} from "tsed-redis";
 import {QueueOptions, QueueSettings} from "../interfaces";
 
 @Service()
-export class QueueService {
+export class QueueService implements OnDestroy {
   private readonly queues: Map<string, BeeQueue> = new Map();
 
   @Inject()
@@ -16,6 +16,10 @@ export class QueueService {
 
   @Constant("queue", {})
   protected readonly queueSettings: QueueSettings;
+
+  async $onDestroy() {
+    await this.close();
+  }
 
   get(name: string, hostId?: string, options?: Partial<QueueOptions>): BeeQueue {
     let queue = this.queues.get(name);
@@ -36,10 +40,7 @@ export class QueueService {
   }
 
   async close() {
-    for (const [name, queue] of this.queues.entries()) {
-      await queue.close().then(() => {
-        this.queues.delete(name);
-      });
-    }
+    await Promise.all(Array.from(this.queues, ([, q]) => q.close()));
+    this.queues.clear();
   }
 }

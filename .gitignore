@@ -49,4 +49,4 @@ test/**/*.js.map
 .idea
 
 # Project
-/dist
+/lib
