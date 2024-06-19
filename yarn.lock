@@ -649,7 +649,7 @@ barrelsby@^2.5.1:
 
 bee-queue@alexdonh/bee-queue#master:
   version "1.7.1"
-  resolved "https://codeload.github.com/alexdonh/bee-queue/tar.gz/a3d3456046184ceb3a2cd13c7ca84754437060d1"
+  resolved "https://codeload.github.com/alexdonh/bee-queue/tar.gz/fde5fcc7eac8927863307e6dd761f50b92772958"
   dependencies:
     p-finally "^2.0.0"
     promise-callbacks "^3.8.1"
