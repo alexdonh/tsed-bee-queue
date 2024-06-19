@@ -6,12 +6,18 @@ Bee-queue for Ts.ED framework
 
 This provides Redis-based job queueing services built on top of Bee-queue for use with Ts.ED framework. With some little configurations you can have your web service running as a queue system that handle different jobs as you define.
 
+**!! IMPORTANT NOTE !!**
+
+`bee-queue` does not seem to be actively maintained no more. It does NOT support [redis](https://github.com/redis/node-redis) v4 and up. So to use this lib it is highly recommended to use [tsed-redis](https://www.npmjs.com/package/tsed-redis) with [ioredis](https://www.npmjs.com/package/ioredis) or you need to handle redis instance yourself.
+
+I also had to modify some `bee-queue` code [here](https://github.com/alexdonh/bee-queue) to make it work properly with `ioredis`.
+
 ## Installation
 
 ```bash
-npm install tsed-bee-queue tsed-redis redis
+npm install tsed-bee-queue tsed-redis ioredis
 // or yarn
-yarn add tsed-bee-queue tsed-redis redis
+yarn add tsed-bee-queue tsed-redis ioredis
 ```
 
 ## Getting started
@@ -79,6 +85,7 @@ import "./queues"; // required
 
 @Configuration({
   ...
+  // refer to `tsed-redis` for configuration
   redis: {
     host: "localhost",
     port: 6379,
@@ -166,13 +173,13 @@ export class Server {
 - [Ts.ED](https://github.com/tsedio/tsed) for the awesome Typescript framework
 - [bee-queue](https://github.com/bee-queue/bee-queue)
 - [bull-arena](https://github.com/bee-queue/arena)
-- [Redis for Node.js](https://github.com/NodeRedis/node-redis)
+- [ioredis](https://github.com/redis/ioredis)
 
 ## License
 
 MIT License
 
-Copyright (c) 2021 Alex Do
+Copyright (c) 2021-2024 Alex Do
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

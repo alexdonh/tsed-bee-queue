@@ -3,6 +3,7 @@
   "exclude": [
     "__mock__",
     "__mocks__",
+    ".d.ts",
     ".spec.ts"
   ],
   "delete": true

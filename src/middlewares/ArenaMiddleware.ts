@@ -48,7 +48,7 @@ export class ArenaMiddleware implements MiddlewareMethods {
           hostId: hostId || "default",
           type: "bee",
           redis,
-          prefix: this.settings.prefix,
+          prefix: this.settings.prefix
         });
       }
       this.hanlder = BullArena({Bee: BeeQueue, queues: Array.from(queueMap, ([, opts]) => opts)}, this.settings.arena);

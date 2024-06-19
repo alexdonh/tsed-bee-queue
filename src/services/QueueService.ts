@@ -25,7 +25,7 @@ export class QueueService implements OnDestroy {
     let queue = this.queues.get(name);
     if (!queue) {
       const {redis, ...settings} = this.queueSettings;
-      const redisClient = !redis || typeof redis === "string" ? this.redisService.get(hostId || redis) : undefined;
+      const redisClient = !redis || typeof redis === "string" ? this.redisService.get<"ioredis">(hostId || redis) : undefined;
       queue = new BeeQueue(name, {redis: redisClient, ...settings, ...options});
       queue.on("ready", () => {
         this.logger.info(`Queue '${name}' is ready`);

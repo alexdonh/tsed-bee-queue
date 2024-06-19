@@ -25,15 +25,12 @@
     ],
     "typeRoots": [
       "./node_modules/@types",
-      "./@types"
     ],
     "paths": {
-      "bull-arena": ["./@types/bull-arena"],
-      "bee-queue": ["./@types/bee-queue"]
+      "bull-arena": ["./src/bull-arena"],
     }
   },
   "include": [
-    "./@types/**/*.d.ts",
     "./src/**/*.ts"
   ],
   "exclude": [

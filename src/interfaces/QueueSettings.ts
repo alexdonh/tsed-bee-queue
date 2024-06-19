@@ -1,5 +1,5 @@
 import {QueueSettings as Settings} from "bee-queue";
-import type {RedisClientOptions, RedisClientType} from "redis";
+import type {RedisOptions, RedisProvider} from "tsed-redis";
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 
@@ -14,7 +14,7 @@ export interface ArenaOptions {
 export type QueueSettings = Modify<
   Settings,
   {
-    redis?: string | RedisClientOptions | RedisClientType;
+    redis?: string | RedisOptions<RedisProvider>;
     arena?: ArenaOptions;
   }
 >;
